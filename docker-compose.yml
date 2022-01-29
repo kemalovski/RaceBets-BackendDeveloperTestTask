@@ -1,0 +1,94 @@
+version: '3.7'
+services:
+
+    web:
+        build:
+            context: ./
+            dockerfile: ./dockerConfig/web.docker
+        container_name: web
+        volumes:
+            - ./app:/var/www:cached
+        ports:
+            - "80:80"
+        links:
+            - app
+
+    app:
+        build:
+            context: ./
+            dockerfile: ./dockerConfig/app.docker
+        container_name: app
+        volumes:
+            - ./app:/var/www:cached
+        links:
+            - mysql
+
+    mysql:
+        image: mysql:5.7
+        container_name: database
+        # volumes:
+        #     - ./dockerConfig/database:/docker-entrypoint-initdb.d
+        #     - ./mysql:/var/lib/mysql
+        environment:
+            - "MYSQL_ROOT_PASSWORD=test"
+            - "MYSQL_DATABASE=test"
+        # entrypoint:
+        #     sh -c "
+        #     echo 'CREATE DATABASE IF NOT EXISTS test_test;' > /docker-entrypoint-initdb.d/init.sql;
+        #     /usr/local/bin/docker-entrypoint.sh --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+        #     "
+        ports:
+            - "3306:3306"
+
+#    rabbit1:
+#        image: lucifer8591/rabbitmq-server:3.7.17
+#        container_name: rabbit1
+#        hostname: rabbit1
+#        ports:
+#          - "5672:5672"
+#          - "15672:15672"
+#        environment:
+#          - "RABBITMQ_DEFAULT_USER=admin"
+#          - "RABBITMQ_DEFAULT_PASS=admin"
+#
+#    elasticsearch:
+#        image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
+#        container_name: elasticsearch
+#        restart: always
+#        environment:
+#            - xpack.security.enabled=false
+#            - discovery.type=single-node
+#        ulimits:
+#            memlock:
+#                soft: -1
+#                hard: -1
+#            nofile:
+#                soft: 65536
+#                hard: 65536
+#        cap_add:
+#            - IPC_LOCK
+#        volumes:
+#            - elasticsearch-data:/usr/share/elasticsearch/data
+#        ports:
+#            - 9200:9200
+#
+#    kibana:
+#        container_name: kibana
+#        image: docker.elastic.co/kibana/kibana:7.4.0
+#        restart: always
+#        environment:
+#            - ELASTICSEARCH_HOSTS=http://elasticsearch:9200    # address of elasticsearch docker container which kibana will connect
+#        ports:
+#            - 5601:5601
+#        depends_on:
+#            - elasticsearch
+#
+    # cache:
+    #     image: redis:3.0
+    #     container_name: cache
+    #     ports:
+    #         - "6379:6379"
+#
+#volumes:
+#    elasticsearch-data:
+#        driver: local

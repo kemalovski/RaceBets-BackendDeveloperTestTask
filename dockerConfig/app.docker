@@ -1,0 +1,73 @@
+FROM php:7.4-fpm
+
+RUN apt-get update
+RUN apt-get update && \
+    apt-get upgrade -y && \
+    apt-get install -y \
+    git \
+    unzip \
+    vim
+#RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+#RUN php -r "if (hash_file('sha384', 'composer-setup.php') === '756890a4488ce9024fc62c56153228907f1545c228516cbf63f885e036d37e9a59d27d63f46af1d4d07ee0f76181c7d3') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+#RUN php composer-setup.php
+#RUN php -r "unlink('composer-setup.php');"
+#RUN mv composer.phar /usr/local/bin/composer
+
+
+RUN curl -sS https://get.symfony.com/cli/installer | bash
+#export PATH="$HOME/.symfony/bin:$PATH"
+ENV PATH="$HOME/.symfony/bin:${PATH}"
+
+
+# Install opcache extension for PHP accelerator
+RUN docker-php-ext-install opcache \
+    && docker-php-ext-enable opcache \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get autoremove -y
+
+RUN apt-get -y update \
+    && apt-get install -y libicu-dev \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl
+
+
+
+RUN docker-php-ext-install pdo_mysql && docker-php-ext-enable pdo_mysql
+
+RUN docker-php-ext-install bcmath && docker-php-ext-enable bcmath
+
+RUN docker-php-ext-install fileinfo && docker-php-ext-enable fileinfo
+
+RUN docker-php-ext-install ctype && docker-php-ext-enable ctype
+
+RUN docker-php-ext-install mysqli
+
+ENV XDEBUG_MODE=coverage
+
+## for php test phpunit graph (coverage)
+RUN pecl install xdebug \
+    && docker-php-ext-enable xdebug
+## for php test phpunit graph (coverage)
+
+
+## rabbitmq için
+RUN docker-php-ext-install sockets
+
+RUN apt-get update && apt-get install -y \
+    zlib1g-dev \
+    libzip-dev
+
+RUN docker-php-ext-install zip
+
+RUN apt-get update \
+    && apt-get install -y \
+        librabbitmq-dev \
+        libssh-dev \
+    && docker-php-ext-install \
+        bcmath \
+        sockets \
+    && pecl install amqp \
+    && docker-php-ext-enable amqp
+## rabbitmq için
+
+WORKDIR /var/www
