@@ -5,19 +5,14 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
-use App\Http\Services\CustomerService;
+use App\Http\Services\StoreCustomerService;
 use App\Http\Responses\StoreCustomerResponse;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CustomerController extends Controller
 {
 
-    private $customerService;
-
-    public function __construct()
-    {
-        $this->customerService = new CustomerService();
-    }
     /**
      * Display a listing of the resource.
      *
@@ -45,18 +40,32 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCustomerRequest $request)
-    {        
-        
-        $storedCustomer = $this->customerService->save($request);
+    {
+        try {
+            $storeCustomerService = (new StoreCustomerService($request))
+                ->storeCustomer()
+                ->assigned_random_bonus_customer();
 
-        return response()->json(
-            new StoreCustomerResponse(
-                Response::HTTP_CREATED,
-                $storedCustomer, 
-                Response::$statusTexts[Response::HTTP_CREATED]
-            ),
-            Response::HTTP_CREATED
-        );
+                return response()->json(
+                    new StoreCustomerResponse(
+                        Response::HTTP_CREATED,
+                        $storeCustomerService->storedCustomerId, 
+                        Response::$statusTexts[Response::HTTP_CREATED]
+                    ),
+                    Response::HTTP_CREATED
+                );
+        } catch (\Throwable $e) {
+            throw new HttpResponseException(
+                response()->json(
+                    new StoreCustomerResponse(
+                        Response::HTTP_INTERNAL_SERVER_ERROR,
+                        response()->array($e->getMessage()),
+                        Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR]
+                    ), 
+                    Response::HTTP_INTERNAL_SERVER_ERROR
+                )
+            );   
+        }
 
     }
 
