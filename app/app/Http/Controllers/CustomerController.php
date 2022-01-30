@@ -5,9 +5,17 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
+use App\Http\Services\CustomerService;
 
 class CustomerController extends Controller
 {
+
+    private $customerService;
+
+    public function __construct()
+    {
+        $this->customerService = new CustomerService();
+    }
     /**
      * Display a listing of the resource.
      *
@@ -36,7 +44,10 @@ class CustomerController extends Controller
      */
     public function store(StoreCustomerRequest $request)
     {
-        //
+        $this->customerService->save($request);
+        
+        return $request['email'];
+
     }
 
     /**
