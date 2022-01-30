@@ -6,6 +6,8 @@ use App\Http\Requests\StoreCustomerRequest;
 use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Http\Services\CustomerService;
+use App\Http\Responses\StoreCustomerResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
@@ -43,10 +45,18 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(StoreCustomerRequest $request)
-    {
-        $this->customerService->save($request);
+    {        
         
-        return $request['email'];
+        $storedCustomer = $this->customerService->save($request);
+
+        return response()->json(
+            new StoreCustomerResponse(
+                Response::HTTP_CREATED,
+                $storedCustomer, 
+                Response::$statusTexts[Response::HTTP_CREATED]
+            ),
+            Response::HTTP_CREATED
+        );
 
     }
 
