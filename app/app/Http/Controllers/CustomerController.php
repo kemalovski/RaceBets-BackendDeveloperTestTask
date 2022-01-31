@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreCustomerRequest;
-use App\Http\Requests\UpdateCustomerRequest;
 use App\Models\Customer;
 use App\Http\Services\StoreCustomerService;
 use App\Http\Responses\StoreCustomerResponse;
-use Symfony\Component\HttpFoundation\Response;
+use App\Http\Requests\StoreCustomerRequest;
+
+use App\Http\Requests\UpdateCustomerRequest;
+use App\Http\Services\UpdateCustomerService;
+use App\Http\Responses\UpdateCustomerResponse;
+
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class CustomerController extends Controller
@@ -48,21 +51,22 @@ class CustomerController extends Controller
 
                 return response()->json(
                     new StoreCustomerResponse(
-                        Response::HTTP_CREATED,
+                        StoreCustomerResponse::HTTP_CREATED,
                         $storeCustomerService->storedCustomerId, 
-                        Response::$statusTexts[Response::HTTP_CREATED]
+                        StoreCustomerResponse::$statusTexts[StoreCustomerResponse::HTTP_CREATED]
                     ),
-                    Response::HTTP_CREATED
+                    StoreCustomerResponse::HTTP_CREATED
                 );
+
         } catch (\Throwable $e) {
             throw new HttpResponseException(
                 response()->json(
                     new StoreCustomerResponse(
-                        Response::HTTP_INTERNAL_SERVER_ERROR,
+                        StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR,
                         response()->array($e->getMessage()),
-                        Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR]
+                        StoreCustomerResponse::$statusTexts[StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR]
                     ), 
-                    Response::HTTP_INTERNAL_SERVER_ERROR
+                    StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR
                 )
             );   
         }
@@ -98,9 +102,40 @@ class CustomerController extends Controller
      * @param  \App\Models\Customer  $customer
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateCustomerRequest $request, Customer $customer)
+    public function update(UpdateCustomerRequest $request, $customerId)
     {
-        //
+
+        try {
+            
+            $updateCustomerService = (new UpdateCustomerService($request, $customerId))
+                ->updateCustomer();
+
+            $httpStatus = $updateCustomerService->updatedCustomerId['id'] ? 
+                UpdateCustomerResponse::HTTP_OK : 
+                UpdateCustomerResponse::HTTP_NO_CONTENT;
+
+            return response()->json(
+                new UpdateCustomerResponse(
+                    $httpStatus,
+                    $updateCustomerService->updatedCustomerId, 
+                    UpdateCustomerResponse::$statusTexts[$httpStatus]
+                ),
+                UpdateCustomerResponse::HTTP_OK
+            );
+
+        } catch (\Throwable $e) {
+
+            throw new HttpResponseException(
+                response()->json(
+                    new UpdateCustomerResponse(
+                        UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR,
+                        response()->array($e->getMessage()),
+                        UpdateCustomerResponse::$statusTexts[UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR]
+                    ), 
+                    UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR
+                )
+            );
+        }
     }
 
     /**
