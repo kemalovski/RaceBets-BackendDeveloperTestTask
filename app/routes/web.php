@@ -1,8 +1,6 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\TransactionController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,7 +12,3 @@ use App\Http\Controllers\TransactionController;
 |
 */
 
-Route::post('/customer', [CustomerController::class, 'store']);
-
-Route::patch('/customer', [CustomerController::class, 'update']);
-Route::post('/transaction', [TransactionController::class, 'store']);

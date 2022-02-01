@@ -23,12 +23,11 @@ class UpdateCustomerRequest extends FormRequest
             'first_name' => 'string',
             'last_name' => 'string',
             'country' => 'string',
-            'email' => 'email',
+            'email' => 'email|unique:customers,email,'.$this->route('customerId'),
         ];
     }
 
     protected function failedValidation(Validator $validator) {
-        
         throw new HttpResponseException(
             response()->json(
                 new StoreCustomerResponse(
@@ -39,6 +38,5 @@ class UpdateCustomerRequest extends FormRequest
                 Response::HTTP_UNPROCESSABLE_ENTITY
             )
         );
-
     }
 }
