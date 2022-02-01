@@ -22,7 +22,7 @@ It was pleasure the solve this task
 
 Bug Fixed
 ------
-I realized those bugs after announced you. Those bugs has been fixed.
+I realized those bugs after I announced it to you. Those bugs have been fixed.
 
 1. witdraw post event bug & everythird bonus bug has been fixed
 2. not valued docker-compose.yml setted up and it is working fine
