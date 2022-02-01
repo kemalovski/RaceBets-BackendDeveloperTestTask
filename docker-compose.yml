@@ -25,7 +25,8 @@ services:
 
     mysql:
         image: mysql:5.7
-        container_name: database        environment:
+        container_name: database        
+        environment:
             - "MYSQL_ROOT_PASSWORD=test"
             - "MYSQL_DATABASE=test"
         ports:
