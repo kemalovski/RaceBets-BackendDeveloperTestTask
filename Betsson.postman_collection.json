@@ -1,0 +1,208 @@
+{
+	"info": {
+		"_postman_id": "d57af7d4-0273-4a7d-b783-316aba2ef884",
+		"name": "Betsson",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Add new customer",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "gender",
+							"value": "M",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Jhon",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Doe",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "Malta",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "jhon@doe.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/customer",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"customer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Edit customer",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "gender",
+							"value": "M",
+							"type": "text"
+						},
+						{
+							"key": "first_name",
+							"value": "Kemal",
+							"type": "text"
+						},
+						{
+							"key": "last_name",
+							"value": "Karaduman",
+							"type": "text"
+						},
+						{
+							"key": "country",
+							"value": "Malta",
+							"type": "text"
+						},
+						{
+							"key": "email",
+							"value": "kemal@karaduman.com",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/customer/1",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"customer",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Deposit money",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "customer_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "real_amount",
+							"value": "10",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "Özdamar",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "birkan@ozdamar.comddss",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/transaction",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Withdraw money",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "customer_id",
+							"value": "1",
+							"type": "text"
+						},
+						{
+							"key": "real_amount",
+							"value": "-123",
+							"type": "text"
+						},
+						{
+							"key": "",
+							"value": "Özdamar",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "",
+							"value": "",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "email",
+							"value": "birkan@ozdamar.comddss",
+							"type": "text",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost/api/transaction",
+					"host": [
+						"localhost"
+					],
+					"path": [
+						"api",
+						"transaction"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
