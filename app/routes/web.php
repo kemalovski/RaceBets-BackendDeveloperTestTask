@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\TransactionController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,8 +14,7 @@ use App\Http\Controllers\CustomerController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::post('/customer', [CustomerController::class, 'store']);
 
-Route::apiResource('customer', CustomerController::class);
+Route::patch('/customer', [CustomerController::class, 'update']);
+Route::post('/transaction', [TransactionController::class, 'store']);

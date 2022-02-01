@@ -2,9 +2,7 @@
 
 namespace App\Http\Responses;
 
-use Symfony\Component\HttpFoundation\Response;
-
-abstract class AbstractResponse extends Response
+abstract class AbstractResponse
 {
     public $status;
     public $data;

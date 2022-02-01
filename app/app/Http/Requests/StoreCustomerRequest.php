@@ -9,15 +9,6 @@ use App\Http\Responses\StoreCustomerResponse;
 use Symfony\Component\HttpFoundation\Response;
 class StoreCustomerRequest extends FormRequest
 {
-    /**
-     * Determine if the user is authorized to make this request.
-     *
-     * @return bool
-     */
-    public function authorize()
-    {
-        return true;
-    }
 
     /**
      * Get the validation rules that apply to the request.
@@ -26,7 +17,6 @@ class StoreCustomerRequest extends FormRequest
      */
     public function rules()
     {
-        
         return [
             'gender' => 'required|string',
             'first_name' => 'required|string',

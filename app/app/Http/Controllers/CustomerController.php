@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Customer;
 use App\Http\Services\StoreCustomerService;
 use App\Http\Responses\StoreCustomerResponse;
 use App\Http\Requests\StoreCustomerRequest;
@@ -12,29 +11,10 @@ use App\Http\Services\UpdateCustomerService;
 use App\Http\Responses\UpdateCustomerResponse;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerController extends Controller
 {
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -51,48 +31,26 @@ class CustomerController extends Controller
 
                 return response()->json(
                     new StoreCustomerResponse(
-                        StoreCustomerResponse::HTTP_CREATED,
+                        Response::HTTP_CREATED,
                         $storeCustomerService->storedCustomerId, 
-                        StoreCustomerResponse::$statusTexts[StoreCustomerResponse::HTTP_CREATED]
+                        Response::$statusTexts[Response::HTTP_CREATED]
                     ),
-                    StoreCustomerResponse::HTTP_CREATED
+                    Response::HTTP_CREATED
                 );
 
         } catch (\Throwable $e) {
             throw new HttpResponseException(
                 response()->json(
                     new StoreCustomerResponse(
-                        StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR,
+                        Response::HTTP_INTERNAL_SERVER_ERROR,
                         response()->array($e->getMessage()),
-                        StoreCustomerResponse::$statusTexts[StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR]
+                        Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR]
                     ), 
-                    StoreCustomerResponse::HTTP_INTERNAL_SERVER_ERROR
+                    Response::HTTP_INTERNAL_SERVER_ERROR
                 )
             );   
         }
 
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Customer $customer)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Customer $customer)
-    {
-        //
     }
 
     /**
@@ -111,16 +69,16 @@ class CustomerController extends Controller
                 ->updateCustomer();
 
             $httpStatus = $updateCustomerService->updatedCustomerId['id'] ? 
-                UpdateCustomerResponse::HTTP_OK : 
-                UpdateCustomerResponse::HTTP_NO_CONTENT;
+            Response::HTTP_OK : 
+            Response::HTTP_NO_CONTENT;
 
             return response()->json(
                 new UpdateCustomerResponse(
                     $httpStatus,
                     $updateCustomerService->updatedCustomerId, 
-                    UpdateCustomerResponse::$statusTexts[$httpStatus]
+                    Response::$statusTexts[$httpStatus]
                 ),
-                UpdateCustomerResponse::HTTP_OK
+                Response::HTTP_OK
             );
 
         } catch (\Throwable $e) {
@@ -128,24 +86,13 @@ class CustomerController extends Controller
             throw new HttpResponseException(
                 response()->json(
                     new UpdateCustomerResponse(
-                        UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR,
+                        Response::HTTP_INTERNAL_SERVER_ERROR,
                         response()->array($e->getMessage()),
-                        UpdateCustomerResponse::$statusTexts[UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR]
+                        Response::$statusTexts[Response::HTTP_INTERNAL_SERVER_ERROR]
                     ), 
-                    UpdateCustomerResponse::HTTP_INTERNAL_SERVER_ERROR
+                    Response::HTTP_INTERNAL_SERVER_ERROR
                 )
             );
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Customer  $customer
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Customer $customer)
-    {
-        //
     }
 }

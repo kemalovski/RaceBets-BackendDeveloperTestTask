@@ -5,12 +5,12 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use App\Http\Responses\StoreCustomerResponse;
+use App\Http\Responses\StoreTransactionResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class UpdateCustomerRequest extends FormRequest
-{
 
+class StoreTransactionRequest extends FormRequest
+{
     /**
      * Get the validation rules that apply to the request.
      *
@@ -19,11 +19,8 @@ class UpdateCustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'gender' => 'string',
-            'first_name' => 'string',
-            'last_name' => 'string',
-            'country' => 'string',
-            'email' => 'email',
+            'customer_id' => 'required|integer|exists:customers,id',
+            'real_amount' => 'required|numeric',
         ];
     }
 
@@ -31,7 +28,7 @@ class UpdateCustomerRequest extends FormRequest
         
         throw new HttpResponseException(
             response()->json(
-                new StoreCustomerResponse(
+                new StoreTransactionResponse(
                     Response::HTTP_UNPROCESSABLE_ENTITY,
                     $validator->errors()->messages(),
                     Response::$statusTexts[Response::HTTP_UNPROCESSABLE_ENTITY]
@@ -41,4 +38,5 @@ class UpdateCustomerRequest extends FormRequest
         );
 
     }
+
 }
