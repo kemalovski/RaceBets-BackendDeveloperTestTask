@@ -19,3 +19,10 @@ Usage
 2. http://localhost/report is list of the total deposits and withdrawals
 
 It was pleasure the solve this task
+
+Bug Fixed
+------
+I realized those bugs after anounced you. 
+I hope you still didn't check :)
+1. witdraw post event bug & everythird bonus bug has been fixed
+2. not valued docker-compose.yml setted up and it is working fine
