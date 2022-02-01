@@ -15,7 +15,7 @@ Ready to use
 
 Usage
 ------
-1. Postman Collection is uploaded under /RaceBets-BackendDeveloperTestTask folder
+1. Postman Collection is uploaded under /RaceBets-BackendDeveloperTestTask/Betsson.postman_collection.json folder
 2. http://localhost/report is list of the total deposits and withdrawals
 
 It was pleasure the solve this task
