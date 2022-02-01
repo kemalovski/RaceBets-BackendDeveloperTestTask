@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Http\Services\Customers;
 
 use App\Http\Requests\StoreCustomerRequest;
 use Illuminate\Support\Facades\DB;

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Services\StoreCustomerService;
+use App\Http\Services\Customers\StoreCustomerService;
 use App\Http\Responses\StoreCustomerResponse;
 use App\Http\Requests\StoreCustomerRequest;
 
 use App\Http\Requests\UpdateCustomerRequest;
-use App\Http\Services\UpdateCustomerService;
+use App\Http\Services\Customers\UpdateCustomerService;
 use App\Http\Responses\UpdateCustomerResponse;
 
 use Illuminate\Http\Exceptions\HttpResponseException;
